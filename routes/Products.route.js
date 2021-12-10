@@ -1,7 +1,24 @@
-const Product = require("../models/Products.model");
+// const Product = require("../models/Products.model");
 const router = require("express").Router();
 
+let ProductsModel = require('../models/Products.model')
 //CREATE
+
+router.post('/create', (req, res) => {  
+    const {title, desc, completed, price, categories, image} = req.body;
+    console.log(req.body)
+
+    ProductsModel.create({title, desc, completed, price, categories, image})
+          .then((response) => {
+               res.status(200).json(response)
+          })
+          .catch((err) => {
+               res.status(500).json({
+                    error: 'Something went wrong',
+                    message: err
+               })
+          })  
+})
 
 router.post("/", async (req, res) => {
   const newProduct = new Product(req.body);

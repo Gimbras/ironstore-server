@@ -25,6 +25,9 @@ app.use('/api', orderRoutes);
 const productsRoutes = require("./routes/Products.route");
 app.use('/api',productsRoutes);
 
+const fileUploadRoutes = require('./routes/File-upload.routes')
+app.use("/api", fileUploadRoutes);
+
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

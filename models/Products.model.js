@@ -13,10 +13,7 @@ const ProductSchema = new mongoose.Schema(
            required: true 
           },
     
-    img: { 
-          type: String, 
-          required: true 
-         },
+    img: String,
 
     categories: { 
                  type: Array 
@@ -29,5 +26,6 @@ const ProductSchema = new mongoose.Schema(
   },
     { timestamps: true }
 );
+let ProductsModel = mongoose.model("Product", ProductSchema);
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = ProductsModel;
