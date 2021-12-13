@@ -2,13 +2,45 @@
 const router = require("express").Router();
 
 let ProductsModel = require('../models/Products.model')
-//CREATE
 
+
+//GET PRODUCT
+router.get('/products', (req, res) => {
+    ProductsModel.find()
+         .then((response) => {
+              res.status(200).json(response)
+         })
+         .catch((err) => {
+              res.status(500).json({
+                   error: 'Something went wrong',
+                   message: err
+              })
+         })         
+})
+
+router.get('/:productId', (req, res) => {
+    const {productId} = req.params
+
+    ProductsModel.findById(productId)
+         .then((response) => {
+              res.status(200).json(response)
+         })
+         .catch((err) => {
+              res.status(500).json({
+                   error: 'Something went wrong',
+                   message: err
+              })
+         })         
+})
+
+
+
+//CREATE
 router.post('/create', (req, res) => {  
-    const {title, desc, completed, price, categories, image} = req.body;
+    const {title, desc, completed, price, categories, img} = req.body;
     console.log(req.body)
 
-    ProductsModel.create({title, desc, completed, price, categories, image})
+    ProductsModel.create({title, desc, completed, price, categories, img})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -57,39 +89,31 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//GET PRODUCT
-router.get("/find/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
-//GET ALL PRODUCTS
-router.get("/", async (req, res) => {
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-  try {
-    let products;
 
-    if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
-      });
-    } else {
-      products = await Product.find();
-    }
+// //GET ALL PRODUCTS
+// router.get("/", async (req, res) => {
+//   const qNew = req.query.new;
+//   const qCategory = req.query.category;
+//   try {
+//     let products;
 
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     if (qNew) {
+//       products = await ProductsModel.find().sort({ createdAt: -1 }).limit(1);
+//     } else if (qCategory) {
+//       products = await ProductsModel.find({
+//         categories: {
+//           $in: [qCategory],
+//         },
+//       });
+//     } else {
+//       products = await ProductsModel.find();
+//     }
+
+//     res.status(200).json(products);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 module.exports = router;
