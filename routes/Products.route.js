@@ -37,6 +37,7 @@ router.get('/:productId', (req, res) => {
 
 //CREATE
 router.post('/create', (req, res) => {  
+  
     const {title, desc, completed, price, categories, img} = req.body;
     console.log(req.body)
 

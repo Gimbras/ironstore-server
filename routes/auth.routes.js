@@ -133,10 +133,44 @@ const isLoggedIn = (req, res, next) => {
   };
 };
 
+//Update/EDIT profile  --> if shiut goes wrong its here!! cullens 's sollutions its gonna work
+
+router.patch("/editProfile", isLoggedIn, (req, res) => {
+
+  console.log("is this id working", req.session.loggedInUser)
+  const {name, country, age} = req.body;
+  UserModel.findByIdAndUpdate(id, {$set: {name: name, country: country, age:  age}})
+        .then((response) => {
+             res.status(200).json(response)
+        })
+        .catch((err) => {
+             res.status(500).json({
+                  error: `Something went wrong`,
+                  message: err
+             })
+        })
+})
+
+// router.put("/editprofile/:id", async (req, res) => {
+//   try {
+//     const updateUser = await User.findByIdAndUpdate(
+//       req.params.id,
+//       {
+//         $set: req.body,
+//       },
+//     );
+//     res.status(200).json(updateUser);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+
 
 // THIS IS A PROTECTED ROUTE
 // will handle all get requests to http:localhost:5005/api/user
 router.get("/user", isLoggedIn, (req, res, next) => {
+  console.log("is this id working", req.session.loggedInUser)
   res.status(200).json(req.session.loggedInUser);
 });
 
