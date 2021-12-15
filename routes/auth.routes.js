@@ -133,14 +133,18 @@ const isLoggedIn = (req, res, next) => {
   };
 };
 
-//Update/EDIT profile  --> if shiut goes wrong its here!! cullens 's sollutions its gonna work
+//Update/EDIT profile  --> if shiut goes wrong its here!! 
 
-router.patch("/editProfile", isLoggedIn, (req, res) => {
+router.patch("/editprofile", isLoggedIn, (req, res) => {
+
+  const id = req.session.loggedInUser._id;
 
   console.log("is this id working", req.session.loggedInUser)
-  const {name, country, age} = req.body;
-  UserModel.findByIdAndUpdate(id, {$set: {name: name, country: country, age:  age}})
-        .then((response) => {
+  const {name, country, age, image } = req.body;
+  
+  UserModel.findByIdAndUpdate(id, {$set: {name: name, country: country, age:  age, image: image }},{new: true} ) // 3rd parameter to return updated info (new: true)
+        .then((response) => { 
+           console.log(response)
              res.status(200).json(response)
         })
         .catch((err) => {
@@ -170,8 +174,17 @@ router.patch("/editProfile", isLoggedIn, (req, res) => {
 // THIS IS A PROTECTED ROUTE
 // will handle all get requests to http:localhost:5005/api/user
 router.get("/user", isLoggedIn, (req, res, next) => {
-  console.log("is this id working", req.session.loggedInUser)
-  res.status(200).json(req.session.loggedInUser);
+  UserModel.findById(req.session.loggedInUser._id)
+  .then((user)=>{
+    res.status(200).json(user)
+  })
+  .catch((err)=>{
+    res.status(500).json({
+      error: `Something went wrong`,
+      message: err
+    
+  })
+  })
 });
 
 module.exports = router;
