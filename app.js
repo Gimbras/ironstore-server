@@ -60,6 +60,13 @@ app.use((req, res, next) => {
 	res.sendFile(__dirname + "/public/index.html");
 });
 
+
+
+//stripe routes
+const stripeRoutes = require("./routes/stripe.routes")
+app.use("/api", stripeRoutes);
+
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
