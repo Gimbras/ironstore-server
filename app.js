@@ -33,7 +33,8 @@ app.use(session({
 // ---------------------------------------------------
 //      EXPRESS-SESSION CONFIG
 // ---------------------------------------------------
-
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 
 // 👇 Start handling routes here
