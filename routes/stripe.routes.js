@@ -2,6 +2,7 @@ const router = require("express").Router();
 // This is your test secret API key.
 const stripe = require("stripe")('sk_test_51K70eID3605ZP0sFszdsAgDS2UU41PBnvr6m4d2ojnHhK1IfykvybYmuWYxdVyAvDDXPKkI7IGIUSBds8B8RfSif00rXTcG0VE');
 
+
 const calculateOrderAmount = (items) => {
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent

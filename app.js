@@ -54,17 +54,16 @@ app.use('/api',productsRoutes);
 const fileUploadRoutes = require('./routes/File-upload.routes')
 app.use("/api", fileUploadRoutes);
 
+//stripe routes
+const stripeRoutes = require("./routes/stripe.routes")
+app.use("/api", stripeRoutes);
+
 //heroku
 app.use((req, res, next) => {
 	// If no routes match, send them the React HTML.
 	res.sendFile(__dirname + "/public/index.html");
 });
 
-
-
-//stripe routes
-const stripeRoutes = require("./routes/stripe.routes")
-app.use("/api", stripeRoutes);
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
